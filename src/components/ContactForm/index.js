@@ -36,7 +36,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
       setName(contact.name ?? '');
       setEmail(contact.email ?? '');
       setPhone(formatPhone(contact.phone ?? ''));
-      setCategoryId(contact.category_id ?? '');
+      setCategoryId(contact.category.id ?? '');
     },
     resetFields: () => {
       setName('');
@@ -115,7 +115,7 @@ const ContactForm = forwardRef(({ buttonLabel, onSubmit }, ref) => {
   }
 
   return (
-    <Form onSubmit={handleSubmit} noValidate>
+    <Form onSubmit={handleSubmit}>
       <FormGroup error={getErrorMessageByFieldName('name')}>
         <Input
           error={getErrorMessageByFieldName('name')}

@@ -1,21 +1,22 @@
-import ContactMapper from './mappers/ContactMapper';
 import HttpCliente from './utils/HttpCliente';
+
+import ContactMapper from './mappers/ContactMapper';
 
 class ContactsService {
   constructor() {
     this.httpClient = new HttpCliente('http://localhost:3001');
   }
 
-  getContactById(id) {
-    return this.httpClient.get(`/contacts/${id}`);
+  async getContactById(id) {
+    const contact = await this.httpClient.get(`/contacts/${id}`);
+
+    return ContactMapper.toDomain(contact);
   }
 
-  listContacts(orderBy = 'asc') {
-    return this.httpClient.get(`/contacts/?orderBy=${orderBy}`, {
-      headers: {
-        Authorization: 'token',
-      },
-    });
+  async listContacts(orderBy = 'asc') {
+    const contacts = await this.httpClient.get(`/contacts/?orderBy=${orderBy}`);
+
+    return contacts.map(ContactMapper.toDomain);
   }
 
   createContact(contact) {
