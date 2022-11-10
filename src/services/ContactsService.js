@@ -1,4 +1,4 @@
-import delay from '../utils/delay';
+import ContactMapper from './mappers/ContactMapper';
 import HttpCliente from './utils/HttpCliente';
 
 class ContactsService {
@@ -6,8 +6,7 @@ class ContactsService {
     this.httpClient = new HttpCliente('http://localhost:3001');
   }
 
-  async getContactById(id) {
-    await delay(3000);
+  getContactById(id) {
     return this.httpClient.get(`/contacts/${id}`);
   }
 
@@ -20,11 +19,15 @@ class ContactsService {
   }
 
   createContact(contact) {
-    return this.httpClient.post('/contacts', { body: contact });
+    const body = ContactMapper.toPersistence(contact);
+
+    return this.httpClient.post('/contacts', { body });
   }
 
   updateContact(id, contact) {
-    return this.httpClient.put(`/contacts/${id}`, { body: contact });
+    const body = ContactMapper.toPersistence(contact);
+
+    return this.httpClient.put(`/contacts/${id}`, { body });
   }
 
   deleteContact(id) {
