@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import ContactsService from '../../services/ContactsService';
-
 import useSafeAsyncAction from '../../hooks/useSafeAsyncAction';
 
-import toast from '../../utils/toast';
-import Presentation from './Presentation';
+import ContactsService from '../../services/ContactsService';
 
-export default function Container() {
+import toast from '../../utils/toast';
+
+export default function useEditContact() {
   const [isLoading, setIsLoading] = useState(true);
   const [contactName, setContactName] = useState('');
 
@@ -62,12 +61,10 @@ export default function Container() {
     }
   }
 
-  return (
-    <Presentation
-      isLoading={isLoading}
-      contactName={contactName}
-      contactFormRef={contactFormRef}
-      onSubmit={handleSubmit}
-    />
-  );
+  return {
+    isLoading,
+    contactName,
+    contactFormRef,
+    handleSubmit,
+  };
 }
