@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-
 import { Link } from 'react-router-dom';
 import {
   useCallback, useEffect, useMemo, useState,
@@ -15,6 +14,9 @@ import magnifierQuestion from '../../assets/images/magnifier-question.svg';
 import Loader from '../../components/Loader';
 import Button from '../../components/Button';
 import Modal from '../../components/Modal';
+import ContactsService from '../../services/ContactsService';
+
+import toast from '../../utils/toast';
 
 import {
   Container,
@@ -26,9 +28,6 @@ import {
   EmptyListContainer,
   SearchNotFoundContainer,
 } from './styles';
-
-import ContactsService from '../../services/ContactsService';
-import toast from '../../utils/toast';
 
 export default function Home() {
   const [contacts, setContacts] = useState([]);
