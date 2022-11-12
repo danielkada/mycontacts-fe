@@ -11,14 +11,14 @@ export default function useErrors() {
     }
 
     setErrors((prevState) => [...prevState, { field, message }]);
-  }, []);
+  }, [errors]);
 
   const removeError = useCallback((fieldName) => {
     setErrors((prevState) => prevState.filter((error) => error.field !== fieldName));
   }, []);
 
   // eslint-disable-next-line max-len
-  const getErrorMessageByFieldName = useCallback((fieldName) => errors.find((error) => error.field === fieldName)?.message, []);
+  const getErrorMessageByFieldName = useCallback((fieldName) => errors.find((error) => error.field === fieldName)?.message, [errors]);
 
   return {
     setError, removeError, getErrorMessageByFieldName, errors,
