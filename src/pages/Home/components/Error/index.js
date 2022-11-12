@@ -24,5 +24,5 @@ export default function ErrorStatus({ onTryAgain }) {
 }
 
 ErrorStatus.propTypes = {
-  onTryAgain: PropTypes.bool.isRequired,
+  onTryAgain: PropTypes.func.isRequired,
 };
