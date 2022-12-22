@@ -1,6 +1,4 @@
-import {
-  useCallback, useEffect, useMemo, useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import ContactsService from '../../services/ContactsService';
 
@@ -17,10 +15,7 @@ export default function useHome() {
   const [isLoadingDelete, setIsLoadingDelete] = useState(false);
 
   const filteredContacts = useMemo(
-    () => contacts.filter(
-      (contact) => contact.name.toLowerCase().includes(searchTerm.toLowerCase()),
-      // contact.name.toLowerCase().startsWith(searchTerm.toLowerCase())
-    ),
+    () => contacts.filter((contact) => contact.name.toLowerCase().includes(searchTerm.toLowerCase())),
     [contacts, searchTerm],
   );
 
@@ -64,7 +59,6 @@ export default function useHome() {
 
   function handleCloseDeleteModal() {
     setIsDeleteModalVisible(false);
-    setContactBeingDeleted(null);
   }
 
   async function handleConfirmDeleteContact() {
@@ -73,9 +67,7 @@ export default function useHome() {
 
       await ContactsService.deleteContact(contactBeingDeleted.id);
 
-      setContacts((prevState) => prevState.filter(
-        (contact) => contact.id !== contactBeingDeleted.id,
-      ));
+      setContacts((prevState) => prevState.filter((contact) => contact.id !== contactBeingDeleted.id));
 
       handleCloseDeleteModal();
 

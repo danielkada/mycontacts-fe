@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from 'react';
+
 import PropTypes from 'prop-types';
 
 import { Overlay, Container, Footer } from './styles';
@@ -16,35 +18,50 @@ export default function Modal({
   onCancel,
   onConfirm,
 }) {
-  if (!visible) {
+  const [shouldRnder, setShouldRender] = useState(visible);
+
+  const overlayRef = useRef(null);
+
+  useEffect(() => {
+    if (visible) {
+      setShouldRender(true);
+    }
+
+    function handleAnimationEnd() {
+      setShouldRender(false);
+    }
+
+    const overlayRefElement = overlayRef.current;
+    if (!visible && overlayRefElement) {
+      overlayRefElement.addEventListener('animationend', () => {
+        handleAnimationEnd();
+      });
+    }
+
+    return () => {
+      if (overlayRefElement) {
+        overlayRefElement.removeEventListener('animationend', handleAnimationEnd());
+      }
+    };
+  }, [visible]);
+
+  if (!shouldRnder) {
     return null;
   }
 
   return (
     <ReactPortal containerId="modal-root">
-      <Overlay>
+      <Overlay isLeaving={!visible} ref={overlayRef}>
         <Container danger={danger}>
           <h1>{title}</h1>
 
-          <div className="modal-body">
-            {children}
-          </div>
+          <div className="modal-body">{children}</div>
 
           <Footer>
-            <button
-              type="button"
-              className="cancel-button"
-              onClick={onCancel}
-              disabled={isLoading}
-            >
+            <button type="button" className="cancel-button" onClick={onCancel} disabled={isLoading}>
               {cancelLabel}
             </button>
-            <Button
-              type="button"
-              danger={danger}
-              onClick={onConfirm}
-              isLoading={isLoading}
-            >
+            <Button type="button" danger={danger} onClick={onConfirm} isLoading={isLoading}>
               {confirmLabel}
             </Button>
           </Footer>
