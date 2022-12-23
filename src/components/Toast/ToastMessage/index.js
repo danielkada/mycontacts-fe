@@ -5,8 +5,11 @@ import { Container } from './styles';
 
 import xCircleIcon from '../../../assets/icons/x-circle.svg';
 import xCircleCheckIcon from '../../../assets/icons/check-circle.svg';
+import useAnimatedUnmont from '../../../hooks/useAnimatedUnmont';
 
-export default function ToastMessage({ message, onRemoveMessage }) {
+export default function ToastMessage({ message, onRemoveMessage, isLeaving }) {
+  const { shouldRender, animatedElementRef } = useAnimatedUnmont(!isLeaving);
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       onRemoveMessage(message.id);
@@ -15,14 +18,20 @@ export default function ToastMessage({ message, onRemoveMessage }) {
     return () => {
       clearTimeout(timeoutId);
     };
-  }, [message, onRemoveMessage]);
+  }, [message, onRemoveMessage, isLeaving]);
 
   function handleRemoveToast() {
     onRemoveMessage(message.id);
   }
 
+  if (!shouldRender) {
+    return null;
+  }
+
   return (
     <Container
+      ref={animatedElementRef}
+      isLeaving={isLeaving}
       type={message.type}
       onClick={handleRemoveToast}
       tabIndex={0}
@@ -43,4 +52,5 @@ ToastMessage.propTypes = {
     duration: PropTypes.number,
   }).isRequired,
   onRemoveMessage: PropTypes.func.isRequired,
+  isLeaving: PropTypes.bool.isRequired,
 };
