@@ -31,7 +31,18 @@ export default function ToastContainer() {
   }, []);
 
   const handleRemoveMessage = useCallback((id) => {
-    setPendingRemovalMessagesId((prevState) => [...prevState, id]);
+    setPendingRemovalMessagesId(
+      (prevState) => [...prevState, id],
+    );
+  }, []);
+
+  const handleAnimationEnd = useCallback((id) => {
+    setMessages(
+      (prevState) => prevState.filter((message) => message.id !== id),
+    );
+    setPendingRemovalMessagesId(
+      (prevState) => prevState.filter((messageId) => messageId !== id),
+    );
   }, []);
 
   return (
@@ -42,6 +53,7 @@ export default function ToastContainer() {
           message={message}
           onRemoveMessage={handleRemoveMessage}
           isLeaving={pendingRemovalMessagesIds.includes(message.id)}
+          onAnimationEnd={handleAnimationEnd}
         />
       ))}
     </Container>
