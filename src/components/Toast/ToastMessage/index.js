@@ -9,7 +9,6 @@ import xCircleCheckIcon from '../../../assets/icons/check-circle.svg';
 function ToastMessage({
   message, onRemoveMessage, isLeaving, animatedRef,
 }) {
-  console.log(message.id);
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       onRemoveMessage(message.id);
