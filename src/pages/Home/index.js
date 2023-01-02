@@ -16,7 +16,6 @@ import {
 
 export default function Home() {
   const {
-    isPending,
     isLoading,
     hasError,
     isDeleteModalVisible,
@@ -63,7 +62,6 @@ export default function Home() {
 
       {hasContacts && (
         <>
-          {isPending && <h1>carregando</h1>}
           <ContactsList
             filteredContacts={filteredContacts}
             orderBy={orderBy}
