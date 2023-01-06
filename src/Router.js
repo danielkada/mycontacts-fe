@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { Routes as Switch, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
-import EditContact from './pages/EditContact';
 import Home from './pages/Home';
 import NewContact from './pages/NewContact';
+import EditContact from './pages/EditContact';
 
-export default function Routes() {
+export default function Router() {
   return (
-    <Switch>
-      <Route path="/" exact element={<Home />} />
+    <Routes>
+      <Route path="/" element={<Home />} />
       <Route path="/new" element={<NewContact />} />
       <Route path="/edit/:id" element={<EditContact />} />
-    </Switch>
+    </Routes>
   );
 }
